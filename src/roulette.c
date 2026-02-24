@@ -57,5 +57,8 @@ void roulette(unsigned int *mp)
 		*mp -= bet;
 		printf("you lost... you now have $%u\n", *mp);
 	}
-
+	printf("the wheel landed on ");
+	
+	if (result == 'r') printf("red\n");
+	else printf("black\n");
 }

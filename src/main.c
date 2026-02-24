@@ -109,19 +109,36 @@ int main(int argc, char **argv)
 	
 	if (money_fp == NULL)
 	{
-		printf("Welcome to my casino!\n\n");
-		printf("Because this is your first time playing this, you are\n");
-		printf("gonna start off with a significant... $1000! (not 1000 factorial)\n");
-		*mp = 1000;
-		printf("\nRun '%s --help' to figure out what to do with that money!!\n", argv[0]);
+		if (errno == ENOENT)
+		{
+			printf("Welcome to my casino!\n\n");
+			printf("Because this is your first time playing this, you are\n");
+			printf("gonna start off with a significant... $1000! (not 1000 factorial)\n");
+			*mp = 1000;
+			printf("\nRun '%s --help' to figure out what to do with that money!!\n", argv[0]);
+			goto done;
+		}
+		else
+		{
+			perror("cannot open file to store money");
+			exit(2);
+		}
 	}
 	else if (fscanf(money_fp, "%u", mp) == 0)
 		*mp = 1000;
 	
 	if (money_fp != NULL) fclose(money_fp);
 	
+	if (argc == 1)
+	{
+		printf("Run '%s --help' for usage information\n", argv[0]);
+		goto done;
+	}
+
+	
 	if (!do_stuff && game == NULL) goto done;
 	// perror("");
+	
 	
 	printf("You have $%u\n", *mp);
 	
