@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -obin/casino
 
-main.c: clean
+src/main.c: clean
 	mkdir bin
 	$(CC) $(CFLAGS) src/*.[cos]
 	

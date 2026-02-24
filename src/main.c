@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <assert.h>
 #include <string.h>
+#include <errno.h>
 #include <stdlib.h>
 
 #include "usage.h"
 #include "version.h"
 #include "roulette.h"
+#include "slots.h"
 
 
 bool eq(char *a, char *b);
@@ -13,6 +16,8 @@ bool eq(char *a, char *b);
 
 int main(int argc, char **argv)
 {
+	errno = 0;
+	
 	if (argc == 1)
 	{
 		usage(argv[0]);
@@ -92,16 +97,43 @@ int main(int argc, char **argv)
 	
 	if (!do_stuff && game == NULL && !force_do_stuff) exit(0);
 	
+	unsigned int *mp = calloc(1, sizeof(unsigned int));
+	assert(mp != NULL && "calloc() error");
 	
-	// for testing purposes
-	printf("game mode: %s\n", game);
+	FILE *money_fp = fopen("/tmp/.casino/.mon", "r");
 	
-	// if (eq(game, "slots"))
-	// {
-		
-	// }
+	// printf("%p, %s\n", money_fp, strerror(errno));
+	
+	if (money_fp == NULL) *mp = 1000;
+	else if (fscanf(money_fp, "%u", mp) == 0)
+		*mp = 1000;
+	
+	fclose(money_fp);
+	
+	// perror("");
+	
+	printf("You have $%u\n", *mp);
 	
 	
+	printf("Mode you chose: %s\n\n", game);
+	fflush(stdout);
+	
+	if (eq(game, "roulette"))	roulette(mp);
+	else if (eq(game, "slots"))	slots(mp);
+	
+	else assert(false && "Invalid mode");
+	
+	
+	if (money_fp != NULL)
+	{
+		FILE *t = fopen("/tmp/.casino/.mon", "w");
+		fprintf(t, "%u", *mp);
+		perror("");
+		fclose(t);
+	}
+	
+	free(mp);
+
 	return 0;
 }
 
