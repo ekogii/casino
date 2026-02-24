@@ -37,7 +37,7 @@ void roulette(unsigned int *mp)
 	
 	if (bet > *mp)
 	{
-		printf("you only have $%u!!\n", *mp);
+		printf("you only have $%u and you want to bet $%u?!\n", *mp, bet);
 		exit(1);
 	}
 	
