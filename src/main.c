@@ -1,3 +1,5 @@
+// #define DEBUG
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -13,21 +15,20 @@
 
 
 bool eq(char *a, char *b);
-
+void write_out_money(unsigned int *mp, char **argv);
 
 int main(int argc, char **argv)
 {
 	errno = 0;
 	
-	if (argc == 1)
-	{
-		usage(argv[0]);
-		return 1;
-	}
+	// if (argc == 1)
+	// {
+	// 	usage(argv[0]);
+	// 	return 1;
+	// }
 	
 	char *game = NULL;
-	bool do_stuff;
-	bool force_do_stuff = false;
+	bool do_stuff = false;
 	
 	char *arg;
 	
@@ -51,12 +52,14 @@ int main(int argc, char **argv)
 		else if (eq(arg, "roulette"))
 		{
 			game = "roulette";
-			force_do_stuff = true;
 		}
 		else if (eq(arg, "slots"))
 		{
 			game = "slots";
-			force_do_stuff = true;
+		}
+		else if (eq(arg, "reset"))
+		{
+			game = "reset";
 		}
 		
 		// Short arguments
@@ -70,7 +73,7 @@ int main(int argc, char **argv)
 			else
 			{
 				for (size_t j = 1; j < strlen(arg); j++)
-				{					
+				{
 					switch (arg[j])
 					{
 						case 'h':
@@ -96,7 +99,6 @@ int main(int argc, char **argv)
 		}
 	}
 	
-	if (!do_stuff && game == NULL && !force_do_stuff) exit(0);
 	
 	unsigned int *mp = calloc(1, sizeof(unsigned int));
 	assert(mp != NULL && "calloc() error");
@@ -105,12 +107,20 @@ int main(int argc, char **argv)
 	
 	// printf("%p, %s\n", money_fp, strerror(errno));
 	
-	if (money_fp == NULL) *mp = 1000;
+	if (money_fp == NULL)
+	{
+		printf("Welcome to my casino!\n\n");
+		printf("Because this is your first time playing this, you are\n");
+		printf("gonna start off with a significant... $1000! (not 1000 factorial)\n");
+		*mp = 1000;
+		printf("\nRun '%s --help' to figure out what to do with that money!!\n", argv[0]);
+	}
 	else if (fscanf(money_fp, "%u", mp) == 0)
 		*mp = 1000;
 	
 	if (money_fp != NULL) fclose(money_fp);
 	
+	if (!do_stuff && game == NULL) goto done;
 	// perror("");
 	
 	printf("You have $%u\n", *mp);
@@ -154,11 +164,44 @@ int main(int argc, char **argv)
 	
 	if (eq(game, "roulette"))	roulette(mp);
 	else if (eq(game, "slots"))	slots(mp);
-	
+	else if (eq(game, "reset"))
+	{
+		printf("are you sure you want to reset your money to 0? [yn]\n    -> ");
+		fflush(stdout);
+		
+		char choice;
+		scanf("%c", &choice);
+		
+		switch (choice)
+		{
+			case 'y':	*mp = 0;
+			default:	goto done;
+		}
+	}
 	else assert(false && "Invalid mode");
 	
 	
-	
+done:
+	if (mp != NULL)
+	{
+		write_out_money(mp, argv);
+		free(mp);
+	}
+
+	exit(0);
+}
+
+
+
+
+bool eq(char *a, char *b)
+{
+	return !strcmp(a, b);
+}
+
+
+void write_out_money(unsigned int *mp, char **argv)
+{
 	mkdir("/tmp/.casino", 0755);
 	// perror("");
 	
@@ -180,16 +223,5 @@ int main(int argc, char **argv)
 		exit(2);
 	}
 	fclose(t);
-	
-	free(mp);
 
-	return 0;
-}
-
-
-
-
-bool eq(char *a, char *b)
-{
-	return !strcmp(a, b);
 }
