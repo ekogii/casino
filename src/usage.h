@@ -1,3 +1,3 @@
 #pragma once
 
-void usage();
+void usage(char *arg0);

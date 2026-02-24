@@ -1,4 +1,4 @@
 # Casino
 ### By Ethan Kemp (ekogii)
 
-A casino TUI I made
+An extremely basic (for now) casino TUI I made
