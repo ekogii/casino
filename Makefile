@@ -1,5 +1,5 @@
-CC = cc
-CFLAGS = -obin/casino
+CC = gcc
+CFLAGS = -o bin/casino -Wall
 
 src/main.c: clean
 	mkdir bin

@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void slots(unsigned int *mp) {
+void slots(unsigned int *mp)
+{
 	// printf("Welcome to the slot machines.\n");
 	
 	printf("The slot machines are still a work in progress!\n");

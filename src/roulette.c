@@ -1,4 +1,5 @@
 #include "roulette.h"
+#include "random.h"
 
 #include <time.h>
 #include <stdio.h>
@@ -42,8 +43,8 @@ void roulette(unsigned int *mp)
 	}
 	
 	// get the result
-	srand((uint)time(0));result=((char[]){114,98})[rand()%2];
-		
+	result=((char[]){114,98})[random_int(0, 1)];
+	
 	printf("you bet $%u\n", bet);
 	
 	
