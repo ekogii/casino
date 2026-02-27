@@ -8,7 +8,7 @@ This is my casino, and it is just an extremely basic (for now) CLI that I made f
 1. Download the latest release of the source code (found in the *Releases* tab)
 2. Extract the .tar.gz (or the .zip)
 3. CD into the place you downloaded the code, and run `make`. (assuming you have GNU Make installed)
-4. This next step will vary depending on whether you want to install my casino *Locally* or *Globally* (system-wide).\
+4. This next step will vary depending on whether you want to install my casino *Locally* or *Globally* (system-wide).
 	#### 4a. Locally
 	Run:
 	```
