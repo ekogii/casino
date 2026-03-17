@@ -54,7 +54,7 @@ Modes:
 
 For example, if you wanted to play roulette, you would run `casino roulette`.
 
-Currently the usage should say `slots`, however the slot machines are currently a work in progress. Observe:
+<!--Currently the usage should say `slots`, however the slot machines are currently a work in progress. Observe:
 ```
 $ casino slots
 You have $1000
@@ -67,7 +67,7 @@ IOT instruction (core dumped)
 ```
 
 **For now though, that is all of the modes for the casino**
-
+-->
 
 ## Conclusion
 As a wise man once said,\
